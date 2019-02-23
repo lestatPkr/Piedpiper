@@ -1,13 +1,99 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Piedpiper.Domain.Companies;
+using Piedpiper.Domain.Screening;
+using Piedpiper.Domain.Services;
+using Piedpiper.Framework;
 
 namespace Piedpiper.Domain.Inverstors
 {
-    public class Investor
+    public class Investor : Aggregate
     {
+       
         Name Name { get; set; }
+        ScreeningCriteria ScreeningCriteria { get; set; }
+        List<Company> MonitoredCompanies { get; set; } = new List<Company>();
 
-        private ScreeningCriteria ScreeningCriteria { get; set; }
+        protected override void When(object e)
+        {
+            switch (e)
+            {
+                case Events.V1.InvestorRegistered x:
+                    Id = new InvestorId(x.InvestorId);
+                    Name = x.Name;
+                    ScreeningCriteria = x.ScreeningCriteria;
+                    break;
+                case Events.V1.InvestorNameChanged x:
+                    Name = x.Name;
+                    break;
+                case Events.V1.InvestorScreeningCriteriaChanged x:
+                    //TODO: Improve to handle single changes
+                    ScreeningCriteria = x.ScreeningCriteria;
+                    break;
+                case Events.V1.CompanyRegistered x:
+                    var scoreCalculator = new ScoreCalculator(ScreeningCriteria);
+                    var score = scoreCalculator.CalculateScore(x.ScreeningData);
+                    var company = new Company
+                    {
+                        CompanyId = x.CompanyId,
+                        Name = x.CompanyName,
+                        ScreeningData = x.ScreeningData,
+                        ScreeningScore = score
+                    };
+                    MonitoredCompanies.Add(company);
+                    break;
+
+
+            }
+        }
+
+        public void Register(InvestorId id, string name, Func<DateTimeOffset> getUtcNow)
+        {
+            if (Version >= 0)
+                throw new InvestorAlreadyRegistered();
+            if (id.Value == Guid.Empty)
+            {
+                id = new InvestorId(Guid.NewGuid());
+            }
+
+            Apply(new Events.V1.InvestorRegistered()
+            {
+                InvestorId = id,
+                Name = name,
+                RegisteredAt = getUtcNow(),
+                ScreeningCriteria = ScreeningCriteria.Default()
+            });
+        }
+        public void ChangeName(InvestorId id, string name, Func<DateTimeOffset> getUtcNow)
+        {
+
+            Apply(new Events.V1.InvestorNameChanged()
+            {
+                InvestorId = id,
+                Name = name,
+                ChangedAt = getUtcNow()
+            });
+        }
+        public void ChangeSreeningCriteria(InvestorId id, ScreeningCriteria screeningCriteria, Func<DateTimeOffset> getUtcNow)
+        {   
+            Apply(new Events.V1.InvestorScreeningCriteriaChanged()
+            {
+                InvestorId = id,
+                ScreeningCriteria = screeningCriteria
+            });
+        }
+        public void RegisterCompany(InvestorId id, CompanyId companyId, Companies.Name name, List<ScreeningData> screeningData, Func<DateTimeOffset> getUtcNow)
+        {
+            Apply(new Events.V1.CompanyRegistered()
+            {
+                InvestorId = id,
+                CompanyId = companyId,
+                CompanyName = name,
+                ScreeningData = screeningData,
+                
+            });
+        }
+
     }
 }

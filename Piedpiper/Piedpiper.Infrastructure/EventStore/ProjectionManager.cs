@@ -3,6 +3,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using EventStore.ClientAPI;
 using Piedpiper.Framework;
+using Serilog.Events;
 
 namespace Piedpiper.Infrastructure.EventStore
 {

@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
+using Piedpiper.Domain.Companies;
+using Piedpiper.Domain.Screening;
 
 namespace Piedpiper.Domain.Inverstors
 {
@@ -11,23 +14,43 @@ namespace Piedpiper.Domain.Inverstors
                 public Guid InvestorId { get; set; }
                 public DateTimeOffset RegisteredAt { get; set; }
                 public string Name { get; set; }
-
+                public ScreeningCriteria    ScreeningCriteria { get; set; }
 
                 public override string ToString()
                     => $"Investor '{InvestorId}' registered.";
             }
 
-            public class InvestorAdChanged
+            public class InvestorNameChanged
             {
                 public Guid InvestorId { get; set; }
                 public string Name { get; set; }
                 public DateTimeOffset ChangedAt { get; set; }
 
                 public override string ToString()
-                    => $"Investor '{InvestorId}' title changed.";
+                    => $"Investor '{InvestorId}' name changed.";
             }
 
-            
+            public class InvestorScreeningCriteriaChanged
+            {
+                public Guid InvestorId { get; set; }
+                public ScreeningCriteria ScreeningCriteria { get; set; }
+                public DateTimeOffset ChangedAt { get; set; }
+
+                public override string ToString()
+                    => $"Investor '{InvestorId}' screening criteria changed.";
+            }
+
+            public class CompanyRegistered
+            {
+                public InvestorId InvestorId { get; set; }
+                public CompanyId CompanyId { get; set; }
+                public Companies.Name CompanyName { get; set; }
+                public List<ScreeningData> ScreeningData { get; set; }
+
+                public override string ToString()
+                    => $"Company '{CompanyId}' registered in investor {InvestorId}";
+
+            }
         }
     }
 }

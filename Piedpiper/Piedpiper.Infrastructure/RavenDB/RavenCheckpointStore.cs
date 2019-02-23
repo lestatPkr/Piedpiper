@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Piedpiper.Framework;
+using Raven.Client.Documents.Session;
 
 namespace Piedpiper.Infrastructure.RavenDB
 {

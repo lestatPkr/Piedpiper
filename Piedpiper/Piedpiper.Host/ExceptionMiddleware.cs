@@ -2,8 +2,12 @@ using System;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Http;
+using Newtonsoft.Json;
+using Piedpiper.Framework;
 
-namespace Piedpiper.Infrastructure
+namespace Piedpiper.Host
 {
     public class ExceptionMiddleware
     {

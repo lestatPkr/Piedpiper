@@ -46,9 +46,25 @@ namespace Piedpiper.Domain.Inverstors
                 public CompanyId CompanyId { get; set; }
                 public Companies.Name CompanyName { get; set; }
                 public List<ScreeningData> ScreeningData { get; set; }
-
+               
                 public override string ToString()
                     => $"Company '{CompanyId}' registered in investor {InvestorId}";
+
+            }
+            public class CompanyScoreChanged
+            {
+                public InvestorId InvestorId { get; set; }
+                public CompanyId CompanyId { get; set; }
+                
+                public bool MustHavesMissing { get; set; }
+                public int NiceToHavePercentage { get; set; }
+                public int SuperNiceToHavePercentage { get; set; }
+                public int MissingKpis { get; set; }
+                public int NoMetKpis { get; set; }
+                public int MatchStatus { get; set; }
+                public double Score { get; set; }
+                public override string ToString()
+                    => $"Company '{CompanyId}' score changed";
 
             }
         }

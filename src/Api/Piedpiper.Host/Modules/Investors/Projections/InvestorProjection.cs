@@ -26,12 +26,9 @@ namespace Piedpiper.Host.Modules.Investors.Projections
                         });
                     break;
                 case Events.V1.InvestorNameChanged x:
-                    await GetSession.ThenSave<InvestorProjection>(
-                        InvestorProjection.Id(x.InvestorId), doc =>
-                        {
-                            doc.Name = x.Name;
-                            doc.InvestorId = x.InvestorId;
-                        });
+                    var investor = await GetSession.Get<InvestorProjection>(x.InvestorId.ToString());
+                    investor.Name = x.Name;
+                    await GetSession().SaveChangesAsync();
                     break;
 
 

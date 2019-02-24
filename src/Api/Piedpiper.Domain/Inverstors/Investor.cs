@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using Piedpiper.Domain.Companies;
 using Piedpiper.Domain.Screening;
@@ -42,6 +43,10 @@ namespace Piedpiper.Domain.Inverstors
                         ScreeningScore = score
                     };
                     MonitoredCompanies.Add(company);
+                    
+                    break;
+                case Events.V1.CompanyScoreChanged x:
+                    
                     break;
 
 
@@ -74,6 +79,8 @@ namespace Piedpiper.Domain.Inverstors
                 Name = name,
                 ChangedAt = getUtcNow()
             });
+
+           
         }
         public void ChangeSreeningCriteria(InvestorId id, ScreeningCriteria screeningCriteria, Func<DateTimeOffset> getUtcNow)
         {   
@@ -92,6 +99,19 @@ namespace Piedpiper.Domain.Inverstors
                 CompanyName = name,
                 ScreeningData = screeningData,
                 
+            });
+            var company = MonitoredCompanies.FirstOrDefault(c => c.CompanyId == companyId);
+            Apply(new Events.V1.CompanyScoreChanged
+            {
+                CompanyId = company.CompanyId,
+                InvestorId = Id,
+                MatchStatus = (int)company.ScreeningScore.Match,
+                MissingKpis = company.ScreeningScore.MissingKpis,
+                MustHavesMissing = company.ScreeningScore.MustHavesMissing,
+                NiceToHavePercentage = company.ScreeningScore.NiceToHavePercentage,
+                NoMetKpis = company.ScreeningScore.NoMetKpis,
+                SuperNiceToHavePercentage = company.ScreeningScore.SuperNiceToHavePercentage,
+                Score = company.ScreeningScore.Value
             });
         }
 

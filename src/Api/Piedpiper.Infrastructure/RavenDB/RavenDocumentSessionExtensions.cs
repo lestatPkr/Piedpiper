@@ -32,7 +32,13 @@ namespace Piedpiper.Infrastructure.RavenDB
                 await session.Save(documentId, action, throwOnNotFound);
             }
         }
-
+        public static async Task<T> Get<T>(this Func<IAsyncDocumentSession> getSession, string documentId)
+        {
+            using (var session = getSession())
+            {
+                return await session.LoadAsync<T>(documentId);
+            }
+        }
         public static async Task ThenDelete(this Func<IAsyncDocumentSession> getSession, string documentId)
         {
             using (var session = getSession())

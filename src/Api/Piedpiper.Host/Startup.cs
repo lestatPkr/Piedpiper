@@ -74,8 +74,10 @@ namespace Piedpiper.Host
 
             var typeMapper = new TypeMapper()
                 .Map<Events.V1.InvestorNameChanged>(nameof(Events.V1.InvestorNameChanged))
-                .Map<Events.V1.InvestorRegistered>(nameof(Events.V1.InvestorRegistered));
-               
+                .Map<Events.V1.InvestorRegistered>(nameof(Events.V1.InvestorRegistered))
+                .Map<Events.V1.CompanyRegistered>(nameof(Events.V1.CompanyRegistered))
+                .Map<Events.V1.CompanyScoreChanged>(nameof(Events.V1.CompanyScoreChanged));
+
 
             var aggregateStore = new GesAggregateStore(
                 (type, id) => $"{type.Name}-{id}",
@@ -102,7 +104,8 @@ namespace Piedpiper.Host
                 .TypeMapper(typeMapper)
                 .CheckpointStore(new RavenCheckpointStore(GetSession))
                 .Projections(
-                    new InvestorsProjection(GetSession))
+                    new InvestorsProjection(GetSession),
+                    new InvestorDashboardProjection(GetSession))
                 .Activate();
 
             services.AddMvc();

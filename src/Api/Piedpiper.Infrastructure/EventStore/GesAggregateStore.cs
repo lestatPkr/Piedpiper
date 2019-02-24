@@ -41,6 +41,7 @@ namespace Piedpiper.Infrastructure.EventStore
         public async Task<T> Load<T>(string aggregateId, CancellationToken cancellationToken = default)
             where T : Aggregate, new()
         {
+
             if (String.IsNullOrWhiteSpace(aggregateId))
                 throw new ArgumentException("Value cannot be null or whitespace.", nameof(aggregateId));
 

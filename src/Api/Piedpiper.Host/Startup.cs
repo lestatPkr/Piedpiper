@@ -104,7 +104,6 @@ namespace Piedpiper.Host
                 .TypeMapper(typeMapper)
                 .CheckpointStore(new RavenCheckpointStore(GetSession))
                 .Projections(
-                    new InvestorsProjection(GetSession),
                     new InvestorDashboardProjection(GetSession))
                 .Activate();
 

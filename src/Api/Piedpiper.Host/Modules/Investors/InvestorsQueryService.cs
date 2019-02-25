@@ -20,7 +20,7 @@ namespace Piedpiper.Host.Modules.Investors
         {
             using (var session = GetSession())
             {
-                var result = await session.Query<Projections.InvestorsProjection.InvestorProjection>()
+                var result = await session.Query<Projections.InvestorDashboardProjection.InvestorDashboard>()
                     .Where(x=> x.InvestorId == query.InvestorId)
                     .Select(x => new V1.GetInvestor.Result
                     {

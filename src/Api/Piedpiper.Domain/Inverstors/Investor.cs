@@ -33,20 +33,24 @@ namespace Piedpiper.Domain.Inverstors
                     ScreeningCriteria = x.ScreeningCriteria;
                     break;
                 case Events.V1.CompanyRegistered x:
-                    var scoreCalculator = new ScoreCalculator(ScreeningCriteria);
-                    var score = scoreCalculator.CalculateScore(x.ScreeningData);
                     var company = new Company
                     {
                         CompanyId = x.CompanyId,
                         Name = x.CompanyName,
-                        ScreeningData = x.ScreeningData,
-                        ScreeningScore = score
+                        ScreeningData = x.ScreeningData
                     };
                     MonitoredCompanies.Add(company);
                     
                     break;
                 case Events.V1.CompanyScoreChanged x:
-                    
+                    var companyUpdated = MonitoredCompanies.FirstOrDefault(c => c.CompanyId == x.CompanyId);
+                    companyUpdated.ScreeningScore = new ScreeningScore(
+                        x.Score, 
+                        x.MustHavesMissing,
+                        x.NiceToHavePercentage, 
+                        x.SuperNiceToHavePercentage, 
+                        x.MissingKpis, 
+                        x.NoMetKpis);
                     break;
 
 
@@ -100,18 +104,25 @@ namespace Piedpiper.Domain.Inverstors
                 ScreeningData = screeningData,
                 
             });
+            UpdateCompanyScore(companyId, getUtcNow);
+        }
+        private void UpdateCompanyScore(CompanyId companyId, Func<DateTimeOffset> getUtcNow)
+        {
+            var scoreCalculator = new ScoreCalculator(ScreeningCriteria);
             var company = MonitoredCompanies.FirstOrDefault(c => c.CompanyId == companyId);
+            var score = scoreCalculator.CalculateScore(company.ScreeningData);
+            
             Apply(new Events.V1.CompanyScoreChanged
             {
                 CompanyId = company.CompanyId,
                 InvestorId = Id,
-                MatchStatus = (int)company.ScreeningScore.Match,
-                MissingKpis = company.ScreeningScore.MissingKpis,
-                MustHavesMissing = company.ScreeningScore.MustHavesMissing,
-                NiceToHavePercentage = company.ScreeningScore.NiceToHavePercentage,
-                NoMetKpis = company.ScreeningScore.NoMetKpis,
-                SuperNiceToHavePercentage = company.ScreeningScore.SuperNiceToHavePercentage,
-                Score = company.ScreeningScore.Value
+                MatchStatus = (int)score.Match,
+                MissingKpis = score.MissingKpis,
+                MustHavesMissing = score.MustHavesMissing,
+                NiceToHavePercentage = score.NiceToHavePercentage,
+                NoMetKpis = score.NoMetKpis,
+                SuperNiceToHavePercentage = score.SuperNiceToHavePercentage,
+                Score = score.Value
             });
         }
 

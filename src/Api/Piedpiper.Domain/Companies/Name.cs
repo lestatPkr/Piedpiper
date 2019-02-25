@@ -10,6 +10,7 @@ namespace Piedpiper.Domain.Companies
 
         public readonly string Value;
 
+        private Name() { }
         internal Name(string value) => Value = value;
 
         public static Name Parse(string value)

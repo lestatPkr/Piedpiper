@@ -49,12 +49,13 @@ namespace Piedpiper.Host.Modules.Investors
                   case Contracts.Investors.V1.RegisterCompany x:
                       return Execute(x.InvestorId, async inv =>
                       {
+                          var name = x.CompanyName;
                           var screeningData = x.ScreeningData.Select(d => new ScreeningData
                           {
                               Status = d.Status,
                               Kpi = (KPI) d.KPI
                           }).ToList();
-                          inv.RegisterCompany(x.InvestorId, x.CompanyId, x.CompanyName, screeningData, _getUtcNow);
+                          inv.RegisterCompany(x.InvestorId, x.CompanyId, name, screeningData, _getUtcNow);
                       });
 
 

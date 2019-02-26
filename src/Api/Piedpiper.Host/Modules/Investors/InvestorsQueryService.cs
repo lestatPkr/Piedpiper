@@ -16,7 +16,7 @@ namespace Piedpiper.Host.Modules.Investors
         public InvestorsQueryService(Func<IAsyncDocumentSession> getSession)
             => GetSession = getSession;
 
-        public async Task<Contracts.Investors.V1.GetDashboard.Result> GetInvestor(
+        public async Task<Contracts.Investors.V1.GetDashboard.Result> GetDashboard(
             Contracts.Investors.V1.GetDashboard query, CancellationToken cancellationToken)
         {
             using (var session = GetSession())

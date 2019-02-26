@@ -52,14 +52,28 @@ namespace Piedpiper.Contracts
 
             }
 
-            public class GetInvestor
+            public class GetDashboard
             {
+                public class Company
+                {
+                    public Guid CompanyId { get; set; }
+                    public string Name { get; set; }
+                    public double Score { get; set; }
+                    public bool MustHavesMissing { get; set; }
+                    public int NiceToHavePercentage { get; set; }
+                    public int SuperNiceToHavePercentage { get; set; }
+                    public int MissingKpis { get; set; }
+                    public int NoMetKpis { get; set; }
+                    public int MatchStatus { get; set; }
+                }
                 public Guid InvestorId { get; set; }
 
                 public class Result
                 {
                     public Guid InvestorId { get; set; }
                     public string Name { get; set; }
+
+                    public List<Company> Companies { get; set; }
                     
                 }
             }

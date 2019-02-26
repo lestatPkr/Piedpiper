@@ -15,7 +15,7 @@ namespace Piedpiper.Host.Modules.Investors
 
         public InvestorsQueriesApi(InvestorsQueryService service) => Service = service;
 
-        [HttpGet, Route("getinvestor")]
+        [HttpGet, Route("dashboard")]
         public Task<IActionResult> When([FromQuery] Contracts.Investors.V1.GetDashboard qry)
             => RunQuery(qry, () => Service.GetDashboard(qry, HttpContext.RequestAborted));
 

@@ -12,7 +12,7 @@ const apiClient = axios.create({
 
 export default {
   getDashboard(id) {
-    return apiClient.get(`/investors/getinvestor?investorId=${id}`)
+    return apiClient.get(`/investors/dashboard?investorId=${id}`)
   }
   
 }

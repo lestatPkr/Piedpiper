@@ -13,6 +13,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Modules\Users\**" />
+    <Content Remove="Modules\Users\**" />
+    <EmbeddedResource Remove="Modules\Users\**" />
+    <None Remove="Modules\Users\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.1.1" />
@@ -26,10 +33,6 @@
     <ProjectReference Include="..\Piedpiper.Domain\Piedpiper.Domain.csproj" />
     <ProjectReference Include="..\Piedpiper.Framework\Piedpiper.Framework.csproj" />
     <ProjectReference Include="..\Piedpiper.Infrastructure\Piedpiper.Infrastructure.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Modules\Users\" />
   </ItemGroup>
 
 </Project>

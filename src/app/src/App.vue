@@ -1,6 +1,8 @@
 <template>
   <v-app>
     <v-toolbar app>
+      <v-btn icon>
+    </v-btn>
        <img height="50"  src="@/assets/pp-logo.png"  />
        
       <v-toolbar-title class="headline text-uppercase">
@@ -17,9 +19,7 @@
       <v-icon>refresh</v-icon>
     </v-btn>
 
-    <v-btn icon>
-      <v-icon>more_vert</v-icon>
-    </v-btn>
+    
     </v-toolbar>
 
     <v-content>

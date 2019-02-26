@@ -3,17 +3,17 @@ import InvestorsService from '@/services/InvestorsService.js'
 export const namespaced = true
 
 export const state = {
-  dashboard: {
-    investorId: "",
-    name: "Oscar 3"
-  },
-  
+  dashboard: {},
+  menuOpened: null
 }
 
 export const mutations = {
   
   SET_DASHBOARD(state, dashboard) {
     state.dashboard = dashboard;
+  },
+  TOGGLE_MENU(state) {
+    state.menuOpened = !state.menuOpened;
   }
 }
 
@@ -24,6 +24,9 @@ export const actions = {
       commit('SET_DASHBOARD', response.data)
       return response.data;
     })
+  },
+  toggleMenu({commit}) {
+    commit("TOGGLE_MENU")
   }
 }
 export const getters = {

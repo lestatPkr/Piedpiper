@@ -106,7 +106,7 @@ namespace Piedpiper.Host
                 .Projections(
                     new InvestorDashboardProjection(GetSession))
                 .Activate();
-
+            services.AddCors();
             services.AddMvc();
             services.AddSwaggerGen(c =>
             {
@@ -128,6 +128,11 @@ namespace Piedpiper.Host
         public void Configure(IApplicationBuilder app, IHostingEnvironment environment)
         {
             app.UseExceptionMiddleware();
+            app.UseCors(builder =>
+                builder.AllowAnyOrigin()
+                    .AllowAnyMethod()
+                    .AllowAnyHeader()
+            );
             app.UseMvcWithDefaultRoute();
             app.UseSwagger();
             app.UseSwaggerUI(options => options.SwaggerEndpoint(

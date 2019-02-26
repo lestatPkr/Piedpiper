@@ -39,7 +39,7 @@ namespace Piedpiper.Domain.Inverstors
                 public override string ToString()
                     => $"Investor '{InvestorId}' screening criteria changed.";
             }
-
+            
             public class CompanyRegistered
             {
                 public InvestorId InvestorId { get; set; }

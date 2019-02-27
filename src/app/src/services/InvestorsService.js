@@ -13,6 +13,9 @@ const apiClient = axios.create({
 export default {
   getDashboard(id) {
     return apiClient.get(`/investors/dashboard?investorId=${id}`)
+  },
+  updateScreeningCriteria(data){
+    return apiClient.post(`/investors/`, data)
   }
   
 }

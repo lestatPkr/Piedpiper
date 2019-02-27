@@ -1,5 +1,6 @@
 import InvestorsService from '@/services/InvestorsService.js'
 
+
 export const namespaced = true
 
 export const state = {
@@ -12,7 +13,7 @@ export const mutations = {
   
   SET_DASHBOARD(state, dashboard) {
     state.dashboard = dashboard;
-    state.screeningCriteria = dashboard.screeningCriteria;
+    
   },
   TOGGLE_MENU(state) {
     state.menuOpened = !state.menuOpened;
@@ -29,8 +30,46 @@ export const mutations = {
 }
 
 export const actions = {
+  updateMustHave({commit, dispatch}, mustHave) {
+    var data = {
+      investorId: state.dashboard.id,
+      mustHave,
+      niceToHave: state.dashboard.niceToHave,
+      superNiceToHave: state.dashboard.niceToHave
+    };
+    return InvestorsService.updateScreeningCriteria(data).then(response => {
+      commit("UPDATE_MH", mustHave);
+      dispatch('fetchDashboard', state.dashboard.id);
+      return response.data;
+    })
+  },
+  updateSuperNiceToHave({commit, dispatch}, superNiceToHave) {
+    var data = {
+      investorId: state.dashboard.id,
+      superNiceToHave,
+      mustHave: state.dashboard.mustHave,
+      niceToHave: state.dashboard.niceToHave
+    };
+    return InvestorsService.updateScreeningCriteria(data).then(response => {
+      commit("UPDATE_SNTH", superNiceToHave);
+      dispatch('fetchDashboard', state.dashboard.id);
+      return response.data;
+    })
+  },
+  updateNiceToHave({commit, dispatch}, niceToHave) {
+    var data = {
+      investorId: state.dashboard.id,
+      niceToHave,
+      mustHave: state.dashboard.mustHave,
+      superNiceToHave: state.dashboard.superNiceToHave
+    };
+    return InvestorsService.updateScreeningCriteria(data).then(response => {
+      commit("UPDATE_NTH", niceToHave);
+      dispatch('fetchDashboard', state.dashboard.id);
+      return response.data;
+    })
+  },
   fetchDashboard({commit}, id) {
-    
     return InvestorsService.getDashboard(id).then(response => {
       commit('SET_DASHBOARD', response.data)
       return response.data;

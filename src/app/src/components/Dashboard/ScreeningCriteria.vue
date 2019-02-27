@@ -17,10 +17,10 @@
               <h3>MUST HAVE</h3> 
             </v-subheader>
         <v-list>
+          <draggable class="list-group" :list="mustHave"  :options="{ group: 'people' }">
           <template v-for="(item, index) in mustHave">
-            <draggable class="list-group" :list="mustHave" :key="index" :options="{ group: 'people' }">
             <v-list-tile
-              :key="item.title"
+              :key="index"
               avatar>
               
 
@@ -32,18 +32,20 @@
                 </v-chip>
               </v-list-tile-content>
             </v-list-tile>
-            </draggable>
+            
             
           </template>
+          </draggable>
         </v-list>
         <v-subheader>
                <h3>SUPER NICE TO HAVE</h3> 
             </v-subheader>
         <v-list >
-          <template v-for="(item, index) in niceToHave">
-            <draggable class="list-group" :list="niceToHave" :key="index" :options="{ group: 'people' }">
-            <v-list-tile
-              :key="item.title"
+          
+            <draggable class="list-group" :list="niceToHave"  :options="{ group: 'people' }">
+          <template v-for="(item, index) in niceToHave" >
+            <v-list-tile :key="index"
+              
               avatar>
               
 
@@ -55,18 +57,19 @@
                 </v-chip>
               </v-list-tile-content>
             </v-list-tile>
+              </template>
             </draggable>
             
-          </template>
+        
         </v-list>
          <v-subheader>
             <h3>NICE TO HAVE</h3> 
             </v-subheader>
         <v-list >
+           <draggable class="list-group" :list="niceToHave"  :options="{ group: 'people' }">
           <template v-for="(item, index) in superNiceToHave">
-            <draggable class="list-group" :list="superNiceToHave" :key="index" :options="{ group: 'people' }">
             <v-list-tile
-              :key="item.title"
+              :key="index"
               avatar>
               
 
@@ -78,9 +81,10 @@
                 </v-chip>
               </v-list-tile-content>
             </v-list-tile>
-            </draggable>
+            
             
           </template>
+          </draggable>
         </v-list>
       </v-card>
     </v-flex>

@@ -40,9 +40,9 @@ namespace Piedpiper.Host.Modules.Investors
                       {
                           var sc = new ScreeningCriteria
                           {
-                              MustHave = x.MustHave.Select(c=> (KPI)c)?.ToList(),
-                              NiceToHave = x.NiceToHave.Select(c => (KPI)c)?.ToList(),
-                              SuperNiceToHave = x.SuperNiceToHave.Select(c => (KPI)c)?.ToList()
+                              MustHave = x.MustHave.Select(c=> Enum.Parse<KPI>(c))?.ToList(),
+                              NiceToHave = x.NiceToHave.Select(c => Enum.Parse<KPI>(c))?.ToList(),
+                              SuperNiceToHave = x.SuperNiceToHave.Select(c => Enum.Parse<KPI>(c))?.ToList()
                           };
                           inv.ChangeSreeningCriteria(x.InvestorId, sc, _getUtcNow);
                       });

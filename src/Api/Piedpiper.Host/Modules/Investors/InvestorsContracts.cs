@@ -28,9 +28,9 @@ namespace Piedpiper.Contracts
             public class ChangeScreeningCriteria
             {
                 public Guid InvestorId { get; set; }
-                public List<int> MustHave { get; set; }
-                public List<int> NiceToHave { get; set; }
-                public List<int> SuperNiceToHave { get; set; }
+                public List<string> MustHave { get; set; }
+                public List<string> NiceToHave { get; set; }
+                public List<string> SuperNiceToHave { get; set; }
 
                 public override string ToString() => $"Changing investor screening criteria '{InvestorId}'...";
             }

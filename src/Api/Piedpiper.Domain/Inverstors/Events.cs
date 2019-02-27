@@ -44,7 +44,7 @@ namespace Piedpiper.Domain.Inverstors
             {
                 public InvestorId InvestorId { get; set; }
                 public CompanyId CompanyId { get; set; }
-                public Companies.Name CompanyName { get; set; }
+                public string CompanyName { get; set; }
                 public List<ScreeningData> ScreeningData { get; set; }
                
                 public override string ToString()

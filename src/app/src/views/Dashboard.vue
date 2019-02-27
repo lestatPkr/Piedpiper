@@ -10,7 +10,7 @@
           <v-card>
             <v-card-text>
               <div v-for="company in dashboard.companies" :key="company.id">
-                <company-item name="Axe Capital" :rating="company.matchStatus"
+                <company-item :name="company.name" :rating="company.matchStatus"
                 :noMetKpis="company.noMetKpis"
                 :missingKpis="company.missingKpis"
                 :niceToHavePercentage="company.niceToHavePercentage"
@@ -44,7 +44,7 @@ function getPageEvents(routeTo, next) {
   store
     .dispatch(
       "investors/fetchDashboard",
-      "9f218330-e2d8-4b71-a6bc-c559a47c3628"
+      "35efeb92-dd31-4227-ac48-50ffe030d011"
     )
     .then(() => {
       console.log("Success");

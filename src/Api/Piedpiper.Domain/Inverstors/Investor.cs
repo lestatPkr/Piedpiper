@@ -94,7 +94,7 @@ namespace Piedpiper.Domain.Inverstors
                 ScreeningCriteria = screeningCriteria
             });
         }
-        public void RegisterCompany(InvestorId id, CompanyId companyId, Companies.Name name, List<ScreeningData> screeningData, Func<DateTimeOffset> getUtcNow)
+        public void RegisterCompany(InvestorId id, CompanyId companyId, string name, List<ScreeningData> screeningData, Func<DateTimeOffset> getUtcNow)
         {
             Apply(new Events.V1.CompanyRegistered()
             {

@@ -26,7 +26,10 @@ namespace Piedpiper.Host.Modules.Investors
                     {
                         InvestorId = x.InvestorId,
                         Name = x.Name,
-                        Companies = Enumerable.ToList(x.Companies).Select(c=> new V1.GetDashboard.Company
+                        MustHave = x.ScreeningCriteria.MustHave.Select(k=> k.ToString()).ToList(),
+                        NiceToHave = x.ScreeningCriteria.NiceToHave.Select(k => k.ToString()).ToList(),
+                        SuperNiceToHave = x.ScreeningCriteria.SuperNiceToHave.Select(k => k.ToString()).ToList(),
+                            Companies = Enumerable.ToList(x.Companies).Select(c=> new V1.GetDashboard.Company
                         {
                             CompanyId = c.CompanyId,
                             Score = c.Score,

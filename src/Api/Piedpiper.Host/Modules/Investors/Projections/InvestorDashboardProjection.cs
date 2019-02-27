@@ -4,8 +4,10 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Piedpiper.Domain.Inverstors;
+using Piedpiper.Domain.Screening;
 using Piedpiper.Framework;
 using Piedpiper.Infrastructure.RavenDB;
+using Raven.Client.Documents.Linq.Indexing;
 using Raven.Client.Documents.Session;
 
 namespace Piedpiper.Host.Modules.Investors.Projections
@@ -27,6 +29,12 @@ namespace Piedpiper.Host.Modules.Investors.Projections
                         {
                             doc.Name = x.Name;
                             doc.InvestorId = x.InvestorId;
+                            doc.ScreeningCriteria = new ScreeningCriteria
+                            {
+                                MustHave = x.ScreeningCriteria.MustHave,
+                                NiceToHave = x.ScreeningCriteria.NiceToHave,
+                                SuperNiceToHave = x.ScreeningCriteria.SuperNiceToHave
+                            };
                         });
                     break;
                 case Events.V1.InvestorNameChanged x:
@@ -68,7 +76,21 @@ namespace Piedpiper.Host.Modules.Investors.Projections
 
                     }
                     break;
-                    default:
+                case Events.V1.InvestorScreeningCriteriaChanged x:
+                    using (var session = GetSession())
+                    {
+                        var investor = await session.LoadAsync<InvestorDashboard>(InvestorDashboard.Id(x.InvestorId));
+                        investor.ScreeningCriteria = new ScreeningCriteria
+                        {
+                            MustHave = x.ScreeningCriteria.MustHave,
+                            NiceToHave = x.ScreeningCriteria.NiceToHave,
+                            SuperNiceToHave = x.ScreeningCriteria.SuperNiceToHave
+                        };
+                        await session.SaveChangesAsync();
+
+                    }
+                    break;
+                default:
                         break;
 
             }
@@ -78,6 +100,7 @@ namespace Piedpiper.Host.Modules.Investors.Projections
             => e is Events.V1.InvestorRegistered
                || e is Events.V1.InvestorNameChanged
                || e is Events.V1.CompanyRegistered
+               || e is Events.V1.InvestorScreeningCriteriaChanged
                || e is Events.V1.CompanyScoreChanged;
 
       
@@ -93,12 +116,20 @@ namespace Piedpiper.Host.Modules.Investors.Projections
             public int NoMetKpis { get; set; }
             public int MatchStatus { get; set; }
         }
+        public class ScreeningCriteriaProjection
+        {
+            public List<int> MustHave { get; set; } = new List<int>();
+            public List<int> SuperNiceToHave { get; set; } = new List<int>();
+            public List<int> NiceToHave { get; set; } = new List<int>();
+            
+        }
         public class InvestorDashboard
         {
             public static string Id(Guid id) => $"Investor/{id}";
             public Guid InvestorId { get; set; }
             public string Name { get; set; }
             public List<InvestorCompanyProjection> Companies { get; set; } = new List<InvestorCompanyProjection>();
+            public ScreeningCriteria ScreeningCriteria { get; set; }
 
         }
     }

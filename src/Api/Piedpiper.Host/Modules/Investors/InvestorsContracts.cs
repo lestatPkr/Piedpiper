@@ -41,6 +41,7 @@ namespace Piedpiper.Contracts
                 {
                     public int KPI { get; set; }
                     public KPIStatus Status { get; set; }
+
                 }
                 public Guid InvestorId { get; set; }
                 public Guid CompanyId { get; set; }
@@ -72,7 +73,9 @@ namespace Piedpiper.Contracts
                 {
                     public Guid InvestorId { get; set; }
                     public string Name { get; set; }
-
+                    public List<string> MustHave { get; set; }
+                    public List<string> NiceToHave { get; set; }
+                    public List<string> SuperNiceToHave { get; set; }
                     public List<Company> Companies { get; set; }
                     
                 }

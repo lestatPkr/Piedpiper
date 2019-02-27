@@ -76,6 +76,7 @@ namespace Piedpiper.Host
                 .Map<Events.V1.InvestorNameChanged>(nameof(Events.V1.InvestorNameChanged))
                 .Map<Events.V1.InvestorRegistered>(nameof(Events.V1.InvestorRegistered))
                 .Map<Events.V1.CompanyRegistered>(nameof(Events.V1.CompanyRegistered))
+                .Map<Events.V1.InvestorScreeningCriteriaChanged>(nameof(Events.V1.InvestorScreeningCriteriaChanged))
                 .Map<Events.V1.CompanyScoreChanged>(nameof(Events.V1.CompanyScoreChanged));
 
 

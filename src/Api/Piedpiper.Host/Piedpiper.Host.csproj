@@ -9,7 +9,7 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DocumentationFile>C:\src\piedpiper\Piedpiper\src\Api\Piedpiper.Host\Piedpiper.Host.xml</DocumentationFile>
+    <DocumentationFile>Piedpiper.Host.xml</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>
@@ -33,6 +33,12 @@
     <ProjectReference Include="..\Piedpiper.Domain\Piedpiper.Domain.csproj" />
     <ProjectReference Include="..\Piedpiper.Framework\Piedpiper.Framework.csproj" />
     <ProjectReference Include="..\Piedpiper.Infrastructure\Piedpiper.Infrastructure.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Piedpiper.Host.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>

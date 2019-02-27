@@ -17,10 +17,10 @@
               <h3>MUST HAVE</h3> 
             </v-subheader>
         <v-list>
-          <draggable class="list-group" :list="mustHave"  :options="{ group: 'people' }">
-          <template v-for="(item, index) in mustHave">
+          <draggable class="list-group" v-model="mustHave" @sort="onSort"  :options="{ group: 'people' }">
+          <template v-for="(item) in mustHave">
             <v-list-tile
-              :key="index"
+              :key="item"
               avatar>
               
 
@@ -42,9 +42,9 @@
             </v-subheader>
         <v-list >
           
-            <draggable class="list-group" :list="niceToHave"  :options="{ group: 'people' }">
-          <template v-for="(item, index) in niceToHave" >
-            <v-list-tile :key="index"
+            <draggable class="list-group" v-model="niceToHave" @sort="onSort" :options="{ group: 'people' }">
+          <template v-for="(item) in niceToHave" >
+            <v-list-tile :key="item"
               
               avatar>
               
@@ -66,10 +66,10 @@
             <h3>NICE TO HAVE</h3> 
             </v-subheader>
         <v-list >
-           <draggable class="list-group" :list="niceToHave"  :options="{ group: 'people' }">
-          <template v-for="(item, index) in superNiceToHave">
+           <draggable class="list-group" v-model="niceToHave" @sort="onSort" :options="{ group: 'people' }">
+          <template v-for="(item) in superNiceToHave">
             <v-list-tile
-              :key="index"
+              :key="item"
               avatar>
               
 
@@ -114,7 +114,7 @@ export default {
               return this.$store.state.investors.dashboard.mustHave
           },
           set(value) {
-              this.$store.commit('UPDATE_MH', value)
+              this.$store.dispatch('investors/updateMustHave', value)
           }
       },
       niceToHave: {
@@ -122,7 +122,8 @@ export default {
               return this.$store.state.investors.dashboard.niceToHave
           },
           set(value) {
-              this.$store.commit('UPDATE_NTH', value)
+              this.$store.dispatch('investors/updateNiceToHave', value)
+
           }
       },
       superNiceToHave: {
@@ -130,13 +131,20 @@ export default {
               return this.$store.state.investors.dashboard.superNiceToHave
           },
           set(value) {
-              this.$store.commit('UPDATE_SNTH', value)
+              this.$store.commit('investors/updateSuperNiveToHave', value)
+
           }
-      }
+      },
+      
     
     
     },
-   
+    methods:{
+        onSort(value) {
+              this.$store.dispatch('investors/updateScreeningCriteria')
+
+          }
+      },
     filters:{
       kpi: function (value) {
       switch (value) {

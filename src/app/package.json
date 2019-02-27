@@ -10,6 +10,7 @@
   "dependencies": {
     "axios": "^0.18.0",
     "vue": "^2.6.6",
+    "vue-nestable": "^2.1.2",
     "vue-router": "^3.0.1",
     "vuedraggable": "^2.18.1",
     "vuetify": "^1.3.0",

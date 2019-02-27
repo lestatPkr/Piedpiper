@@ -10,13 +10,15 @@ export const state = {
 }
 
 export const mutations = {
-  
   SET_DASHBOARD(state, dashboard) {
     state.dashboard = dashboard;
     
   },
   TOGGLE_MENU(state) {
     state.menuOpened = !state.menuOpened;
+  },
+  SET_MENU(state, value) {
+    state.menuOpened = value;
   },
   UPDATE_MH(state, list) {
     state.dashboard.mustHave = list;
@@ -30,48 +32,67 @@ export const mutations = {
 }
 
 export const actions = {
-  updateMustHave({commit, dispatch}, mustHave) {
+  updateScreeningCriteria({commit, dispatch}){
     var data = {
-      investorId: state.dashboard.id,
-      mustHave,
-      niceToHave: state.dashboard.niceToHave,
-      superNiceToHave: state.dashboard.niceToHave
-    };
-    return InvestorsService.updateScreeningCriteria(data).then(response => {
-      commit("UPDATE_MH", mustHave);
-      dispatch('fetchDashboard', state.dashboard.id);
-      return response.data;
-    })
-  },
-  updateSuperNiceToHave({commit, dispatch}, superNiceToHave) {
-    var data = {
-      investorId: state.dashboard.id,
-      superNiceToHave,
+      investorId: state.dashboard.investorId,
+      superNiceToHave: state.dashboard.superNiceToHave,
       mustHave: state.dashboard.mustHave,
       niceToHave: state.dashboard.niceToHave
     };
     return InvestorsService.updateScreeningCriteria(data).then(response => {
-      commit("UPDATE_SNTH", superNiceToHave);
+      
       dispatch('fetchDashboard', state.dashboard.id);
       return response.data;
     })
   },
+  updateMustHave({commit, dispatch}, mustHave) {
+    commit("UPDATE_MH", mustHave);
+    // var data = {
+    //   investorId: state.dashboard.investorId,
+    //   mustHave: mustHave,
+    //   niceToHave: state.dashboard.niceToHave,
+    //   superNiceToHave: state.dashboard.superNiceToHave
+    // };
+    // console.log(data)
+    // return InvestorsService.updateScreeningCriteria(data).then(response => {
+    
+    //   dispatch('fetchDashboard', state.dashboard.id);
+    //   return response.data;
+    // })
+  },
+  updateSuperNiceToHave({commit, dispatch}, superNiceToHave) {
+    commit("UPDATE_SNTH", superNiceToHave);
+    // var data = {
+    //   investorId: state.dashboard.investorId,
+    //   superNiceToHave,
+    //   mustHave: state.dashboard.mustHave,
+    //   niceToHave: state.dashboard.niceToHave
+    // };
+    // return InvestorsService.updateScreeningCriteria(data).then(response => {
+    //   dispatch('fetchDashboard', state.dashboard.id);
+    //   return response.data;
+    // })
+  },
   updateNiceToHave({commit, dispatch}, niceToHave) {
-    var data = {
-      investorId: state.dashboard.id,
-      niceToHave,
-      mustHave: state.dashboard.mustHave,
-      superNiceToHave: state.dashboard.superNiceToHave
-    };
-    return InvestorsService.updateScreeningCriteria(data).then(response => {
-      commit("UPDATE_NTH", niceToHave);
-      dispatch('fetchDashboard', state.dashboard.id);
-      return response.data;
-    })
+    commit("UPDATE_NTH", niceToHave);
+    // var data = {
+    //   investorId: state.dashboard.investorId,
+    //   niceToHave,
+    //   mustHave: state.dashboard.mustHave,
+    //   superNiceToHave: state.dashboard.superNiceToHave
+    // };
+    // return InvestorsService.updateScreeningCriteria(data).then(response => {
+     
+    //   dispatch('fetchDashboard', state.dashboard.investorId);
+    //   return response.data;
+    // })
   },
   fetchDashboard({commit}, id) {
     return InvestorsService.getDashboard(id).then(response => {
-      commit('SET_DASHBOARD', response.data)
+      if(response.data.investorId){
+        commit('SET_DASHBOARD', response.data)
+      }
+      
       return response.data;
     })
   },
@@ -81,6 +102,7 @@ export const actions = {
 }
 export const getters = {
   getDashboardById: state => id => {
+    console.log(id)
     return state.dashboard;
   }
 }

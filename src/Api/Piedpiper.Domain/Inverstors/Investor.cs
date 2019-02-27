@@ -93,6 +93,7 @@ namespace Piedpiper.Domain.Inverstors
                 InvestorId = id,
                 ScreeningCriteria = screeningCriteria
             });
+            MonitoredCompanies.ForEach(c=> UpdateCompanyScore(c.CompanyId, getUtcNow));
         }
         public void RegisterCompany(InvestorId id, CompanyId companyId, string name, List<ScreeningData> screeningData, Func<DateTimeOffset> getUtcNow)
         {

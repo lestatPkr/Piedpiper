@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 const apiClient = axios.create({
-  baseURL: `https://localhost:5001`,
+  baseURL: `https://piedpiper-api.azurewebsites.net`,
   withCredentials: false, // This is the default
   headers: {
     Accept: 'application/json',
@@ -15,7 +15,8 @@ export default {
     return apiClient.get(`/investors/dashboard?investorId=${id}`)
   },
   updateScreeningCriteria(data){
-    return apiClient.post(`/investors/`, data)
+    
+    return apiClient.post(`/investors/changescreeningcriteria`, data)
   }
   
 }

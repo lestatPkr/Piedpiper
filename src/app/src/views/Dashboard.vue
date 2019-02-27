@@ -44,7 +44,7 @@ function getPageEvents(routeTo, next) {
   store
     .dispatch(
       "investors/fetchDashboard",
-      "35efeb92-dd31-4227-ac48-50ffe030d011"
+      "7d264d9e-cfbd-4980-88bd-455ba4cee664"
     )
     .then(() => {
       console.log("Success");
@@ -61,7 +61,15 @@ export default {
     return {};
   },
   computed: {
-    ...mapState("investors", ["dashboard", "menuOpened"])
+    ...mapState("investors", ["dashboard"]),
+    menuOpened: {
+          get() {
+              return this.$store.state.investors.menuOpened
+          },
+          set(value) {
+              this.$store.commit('investors/SET_MENU', value)
+          }
+      },
   },
   beforeRouteEnter(routeTo, routeFrom, next) {
     getPageEvents(routeTo, next);
